@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css"
+        integrity="sha512-+WF6UMXHki/uCy0vATJzyA9EmAcohIQuwpNz0qEO+5UeE5ibPejMRdFuARSrl1trs3skqie0rY/gNiolfaef5w=="
+        crossorigin="anonymous" />
+
+</head>
+
+<body class="bg-gray-800">
+
+    <div>
+        <div class="bg-gray-800 pb-32">
+            <nav class="bg-gray-800">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="border-b border-gray-700">
+                        <div class="flex items-center justify-between h-16 px-4 sm:px-0">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <img class="h-8 w-8"
+                                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                                        alt="Workflow">
+                                </div>
+                                <div class="hidden md:block">
+                                    <div class="ml-10 flex items-baseline space-x-4">
+                                        <a href="#"
+                                            class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </nav>
+            <header class="py-10">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <h1 class="text-3xl font-bold text-white">
+                        Air Quality Monitor
+                    </h1>
+                    <h2 class="text-lg font-bold text-white">
+                        <span id="statusLbl">Not Connected</span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+
+        <main class="-mt-32">
+            <div class="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
+                <!-- Replace with your content -->
+                <div class="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
+                    <!-- This example requires Tailwind CSS v2.0+ -->
+                    <div>
+
+                        <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
+                            <div class="ml-4 mt-2">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                    Air Quality Values
+                                </h3>
+                            </div>
+                            <div class="ml-4 mt-2 flex-shrink-0">
+                                <button type="button" id="stopBtn"
+                                    class="relative statusLbl is nullinline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Stop
+                                </button>
+                            </div>
+                        </div>
+
+                        <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
+                            <div class="bg-indigo-500 overflow-hidden shadow rounded-lg">
+                                <div class="px-4 py-5 sm:p-6">
+                                    <dt class="text-sm font-medium text-gray-300 truncate">
+                                        Temperature
+                                    </dt>
+                                    <dd class="mt-1 text-3xl font-semibold text-gray-100">
+                                        <span id="lblTemp">0</span> <span class="text-sm">°C</span>
+                                    </dd>
+                                </div>
+                            </div>
+
+                            <div class="bg-indigo-600 overflow-hidden shadow rounded-lg">
+                                <div class="px-4 py-5 sm:p-6">
+                                    <dt class="text-sm font-medium text-gray-300 truncate">
+                                        TVOC
+                                    </dt>
+                                    <dd class="mt-1 text-3xl font-semibold text-gray-100">
+                                        <span id="lblTvoc">0</span> <span class="text-sm">mg/m<sup>3</sup></span>
+                                    </dd>
+                                </div>
+                            </div>
+
+                            <div class="bg-indigo-700 overflow-hidden shadow rounded-lg">
+                                <div class="px-4 py-5 sm:p-6">
+                                    <dt class="text-sm font-medium text-gray-300 truncate">
+                                        HCHO
+                                    </dt>
+                                    <dd class="mt-1 text-3xl font-semibold text-gray-100">
+                                        <span id="lblHcho">0</span> <span class="text-sm">mg/m<sup>3</sup></span>
+                                    </dd>
+                                </div>
+                            </div>
+
+                            <div class="bg-indigo-800 overflow-hidden shadow rounded-lg">
+                                <div class="px-4 py-5 sm:p-6">
+                                    <dt class="text-sm font-medium text-gray-300 truncate">
+                                        CO2
+                                    </dt>
+                                    <dd class="mt-1 text-3xl font-semibold text-gray-100">
+                                        <span id="lblCo2">0</span> <span class="text-sm">ppm</span>
+                                    </dd>
+                                </div>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
+                <!-- Replace with your content -->
+                <div class="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js"
+        integrity="sha512-zO8oeHCxetPn1Hd9PdDleg5Tw1bAaP0YmNvPY8CwcRyUk7d7/+nyElmFrB6f7vg4f7Fv4sui1mcep8RIEShczg=="
+        crossorigin="anonymous"></script>
+
+
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Temp',
+                    backgroundColor: 'rgba(99, 102, 241,.3)',
+                    borderColor: 'rgba(99, 102, 241,1)',
+                    labels: [],
+                    // lineTension: 0,
+                    pointRadius: 0,
+                },
+                {
+                    label: 'TVOC',
+                    backgroundColor: 'rgba(239, 68, 68, .3)',
+                    borderColor: 'rgba(239, 68, 68, 1)',
+                    labels: [],
+                    // lineTension: 0,
+                    pointRadius: 0,
+                },
+                {
+                    label: 'HCHO',
+                    backgroundColor: 'rgba(245, 158, 11,.3)',
+                    borderColor: 'rgba(245, 158, 11,1)',
+                    labels: [],
+                    // lineTension: 0,
+                    pointRadius: 0,
+                },
+                {
+                    label: 'CO2',
+                    backgroundColor: 'rgba(16, 185, 129, .3)',
+                    borderColor: 'rgba(16, 185, 129, 1)',
+                    labels: [],
+                    // lineTension: 0,
+                    pointRadius: 0,
+                }]
+            },
+
+            options: {
+
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            unit: "second",
+                            displayFormats: {
+                                second: 'H:mm:ss',
+                            }
+                        },
+                        ticks: {
+                            source: 'auto',
+                            // maxTicksLimit: 15,
+                            autoSkip: true,
+                            autoSkipPadding: 25,
+                            maxRotation: 0
+                        },
+                    }],
+                },
+
+            }
+        });
+
+        function addData(label, data, index) {
+
+            if (chart.data.labels.length <= chart.data.datasets[index].data.length) {
+                chart.data.labels.push(label);
+            }
+
+            chart.data.datasets[index].data.push(data)
+            chart.update();
+
+
+            if (chart.data.labels.length > 100) {
+                removeData();
+            }
+        }
+
+        function removeData() {
+            chart.data.labels.shift();
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.shift();
+            });
+            chart.update();
+        }
+
+        function clearData() {
+            chart.data.labels = [];
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data = [];
+            });
+            chart.update();
+        }
+
+        const tempLbl = document.getElementById("lblTemp");
+        const tvocLbl = document.getElementById("lblTvoc");
+        const hchoLbl = document.getElementById("lblHcho");
+        const co2Lbl = document.getElementById("lblCo2");
+
+        var t0 = performance.now()
+        var i = 0;
+
+        const resetBtn = document.getElementById("stopBtn");
+        resetBtn.addEventListener('click', () => {
+            socket.emit("stop", null)
+        })
+
+        var socket = io();
+        socket.on('connect', function () {
+            statusLbl.innerText = "Connected"
+        });
+
+        socket.on('disconnect', function () {
+            statusLbl.innerText = "Disconnected"
+        });
+
+        socket.on('update', function (data) {
+
+            addData(data.timestamp, data.temp, 0)
+            addData(data.timestamp, data.tvoc, 1)
+            addData(data.timestamp, data.hcho, 2)
+            addData(data.timestamp, data.co2, 3)
+
+            tempLbl.innerText = data.temp.toFixed(1)
+            tvocLbl.innerText = data.tvoc.toFixed(3)
+            hchoLbl.innerText = data.hcho.toFixed(3)
+            co2Lbl.innerText = data.co2.toFixed(3)
+        });
+
+        socket.on('push', function (datas) {
+            var today = new Date;
+            clearData();
+
+            datas.forEach(data => {
+                addData(data.timestamp, data.temp, 0)
+                addData(data.timestamp, data.tvoc, 1)
+                addData(data.timestamp, data.hcho, 2)
+                addData(data.timestamp, data.co2, 3)
+            })
+        });
+    </script>
+
+</body>
+
+</html>

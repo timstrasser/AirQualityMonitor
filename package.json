@@ -1,0 +1,19 @@
+{
+  "name": "air",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@influxdata/influxdb-client": "^1.9.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "log-essentials": "^1.2.2",
+    "socket.io": "^3.0.4"
+  }
+}
