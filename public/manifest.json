@@ -1,0 +1,27 @@
+{
+  "name": "Air Quality Monitor",
+  "short_name": "Air",
+  "description": "Air",
+  "start_url": "/?standalone=true",
+  "display": "fullscreen",
+  "background_color": "#31c48d",
+  "theme_color": "#31c48d",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/icon-180.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    },
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

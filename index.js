@@ -5,7 +5,8 @@ const logger = require('log-essentials')();
 const socketIOLogger = require('log-essentials')('SOCKET.IO');
 const bluetoothLogger = require('log-essentials')('BLUETOOTH');
 const dbLogger = require('log-essentials')('DATABASE');
-const app = require('express')();
+const express = require('express');
+const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const { InfluxDB, Point } = require('@influxdata/influxdb-client');
@@ -29,6 +30,7 @@ const byteUtil = require('./byteUtil.js');
 const DEBUG_OUTPUT = false;
 const REFRESH_RATE = 15000;
 const DEVICE_NAME = '6003#060030393CB3C';
+const DATAPOINTS_CACHE_SIZE = 1000;
 
 var latestSensorData;
 var globalSensorData = [];
@@ -38,7 +40,7 @@ function cacheSensorData(sensorData) {
 
   globalSensorData.push(sensorData);
 
-  if (globalSensorData.length > 100) {
+  if (globalSensorData.length > DATAPOINTS_CACHE_SIZE) {
     globalSensorData.shift();
   }
 }
@@ -117,6 +119,8 @@ async function startBluetoothHandler() {
 }
 
 function startExpress() {
+  app.use(express.static('public'));
+
   app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
   });
