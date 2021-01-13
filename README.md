@@ -10,7 +10,7 @@ The files located in the src folder are from the [gatttool](https://github.com/l
 
 # Installation
 
-First, you have to install bluez as shown [here](https://www.instructables.com/Control-Bluetooth-LE-Devices-From-A-Raspberry-Pi/).
+~~First, you have to install bluez as shown [here](https://www.instructables.com/Control-Bluetooth-LE-Devices-From-A-Raspberry-Pi/).~~
 
 If you want to use InfluxDB you have create a token to set the "INFLUX_DB_TOKEN" environment variable.
 You can create a `.env` file like this:
