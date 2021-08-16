@@ -50,6 +50,8 @@ function cacheSensorData(sensorData) {
 }
 
 function processSensorData(sensorData) {
+  if(!sensorData) return;
+  
   bluetoothLogger.muted(JSON.stringify(sensorData));
   io.sockets.emit('update', sensorData);
 
