@@ -67,8 +67,12 @@
                                 </h3>
                             </div>
                             <div class="ml-4 mt-2 flex-shrink-0">
-                                <button type="button" id="stopBtn"
+                                <button type="button" id="calibrateBtn"
                                     class="relative statusLbl is nullinline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Calibrate
+                                </button>
+                                <button type="button" id="stopBtn"
+                                    class="relative statusLbl is nullinline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-800 hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700">
                                     Stop
                                 </button>
                             </div>
@@ -299,6 +303,11 @@
         const resetBtn = document.getElementById("stopBtn");
         resetBtn.addEventListener('click', () => {
             socket.emit("stop", null)
+        })
+
+        const calibrateBtn = document.getElementById("calibrateBtn");
+        calibrateBtn.addEventListener('click', () => {
+            socket.emit("calibrate", null)
         })
 
         var socket = io();

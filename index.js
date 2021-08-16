@@ -35,6 +35,8 @@ const DATAPOINTS_CACHE_SIZE = 1000;
 var latestSensorData;
 var globalSensorData = [];
 
+var updateReceived = true;
+
 function cacheSensorData(sensorData) {
   latestSensorData = sensorData;
 
@@ -43,6 +45,8 @@ function cacheSensorData(sensorData) {
   if (globalSensorData.length > DATAPOINTS_CACHE_SIZE) {
     globalSensorData.shift();
   }
+
+  updateReceived = true;
 }
 
 function processSensorData(sensorData) {
@@ -100,8 +104,16 @@ async function startBluetoothHandler() {
       // await dev.write(12, "NODEJS");
 
       setInterval(() => {
+        if(!updateReceived){
+          bluetoothLogger.error('No update received! Probably connection lost!')
+          bluetoothLogger.info('Restarting!')
+          process.exit(0)
+        }
+
         gatttool.write('char-write-cmd 0x0010 AB');
+    
         bluetoothLogger.muted('Requesting update...');
+        updateReceived = false;
       }, REFRESH_RATE);
 
       // setTimeout(() => gatttool.write("exit"), 15000);
@@ -139,6 +151,11 @@ function startExpress() {
     socket.on('stop', async (msg) => {
       socketIOLogger.warn('Stop event fired!');
       exit();
+    });
+
+    socket.on('calibrate', async (msg) => {
+      socketIOLogger.info('Recalibrating requested!');
+      gatttool.write('char-write-cmd 0x0010 AD');
     });
 
     socketIOLogger.success(
