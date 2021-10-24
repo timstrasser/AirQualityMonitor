@@ -1,4 +1,8 @@
 # Introduction
+<p align="center">
+  <img src="https://i.imgur.com/Aod9QNb.png" alt="Preview"/>
+</p>
+
 
 This projects uses bluez to gather air quality values from a bluetooth monitor [(see AliExpress)](https://www.aliexpress.com/item/1005001816855462.html) and serve a simple webpage to visualize them.
 
