@@ -25,7 +25,7 @@ INFLUX_DB_ORG={YOUR_ORGANISATION}
 INFLUX_DB_BUCKET={YOUR BUCKET}
 ```
 
-After you run `npm i` the project should be ready to run. User `sudo npm start` to start.
+After you run `npm i` the project should be ready to run. Use `sudo npm start` to start the server.
 
 # Troubleshooting
 
