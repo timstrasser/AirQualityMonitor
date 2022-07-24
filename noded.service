@@ -1,0 +1,28 @@
+[Unit]
+
+Description=MyNodeDämon
+
+After=network.target
+
+StartLimitIntervalSec=0
+
+[Service]
+
+Type=simple
+
+Restart=always
+
+RestartSec=5
+
+User=root
+
+WorkingDirectory =/home/pi/Scripts/AirQualityMonitor
+ExecStart= /usr/bin/npm start
+
+
+
+[Install]
+
+WantedBy=multi-user.target
+
+
